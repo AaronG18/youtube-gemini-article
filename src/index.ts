@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { secureHeaders } from "hono/secure-headers";
+import { generate } from "./routes/generate";
 import { health } from "./routes/health";
 import { transcript } from "./routes/transcript";
 import type { Bindings } from "./types";
@@ -10,6 +11,7 @@ const app = new Hono<{ Bindings: Bindings }>();
 app.use("*", secureHeaders());
 app.route("/api/health", health);
 app.route("/api/transcript", transcript);
+app.route("/api/generate", generate);
 
 app.notFound((c) => c.json({ error: "Not found" }, 404));
 
