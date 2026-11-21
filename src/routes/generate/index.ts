@@ -6,6 +6,7 @@ import { generateBodySchema } from "./validators";
 
 export const generate = new Hono<{ Bindings: Bindings }>();
 
-generate.post("/", zValidator("json", generateBodySchema), (c) =>
-  handleGenerate(c, c.req.valid("json").url),
-);
+generate.post("/", zValidator("json", generateBodySchema), (c) => {
+  const { url, requirements } = c.req.valid("json");
+  return handleGenerate(c, url, requirements);
+});
