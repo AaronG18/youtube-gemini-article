@@ -60,3 +60,16 @@
 
 - **Skill**: `hono-typescript`（Mindrally）— Hono + TypeScript + Cloudflare Workers 的目录、类型、Zod、测试规范。
 - **Rule**: 仓库 HARNESS 的 “one issue → one PR → CI with automated tests” 流程，以及禁止 heredoc / force push 等命令安全规则。
+
+## 6. 交付状态
+
+| Step | Issue | PR | 状态 |
+|---|---|---|---|
+| 1 骨架 + CI | #1 | #2 | merged |
+| 2 字幕解析 + 兜底 | #3 | #4 | merged |
+| 3 Gemini 流式 | #5 | #6 | merged |
+| 4 前端 + 章节渲染 | #7 | #8 | merged |
+| 5 约束 + 5W1H | #9 | #10 | merged |
+| 6 文档 + 部署 | #11 | #12 | merged |
+
+每个 PR 都跑同一条 CI：`npm ci → typecheck → test → build`。测试从 2 个增长到 31 个。
