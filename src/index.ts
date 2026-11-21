@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { secureHeaders } from "hono/secure-headers";
+import { fivew1h } from "./routes/fivew1h";
 import { generate } from "./routes/generate";
 import { health } from "./routes/health";
 import { transcript } from "./routes/transcript";
@@ -14,6 +15,7 @@ app.route("/", ui);
 app.route("/api/health", health);
 app.route("/api/transcript", transcript);
 app.route("/api/generate", generate);
+app.route("/api/5w1h", fivew1h);
 
 app.notFound((c) => c.json({ error: "Not found" }, 404));
 

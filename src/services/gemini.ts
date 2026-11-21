@@ -1,3 +1,5 @@
+import type { Constraints } from "./constraints";
+import { formatConstraints } from "./constraints";
 import type { Transcript } from "./transcript";
 
 interface GeminiPart {
@@ -16,6 +18,7 @@ export interface GeminiStreamOptions {
   apiKey: string;
   model?: string;
   fetchImpl?: typeof fetch;
+  constraints?: Constraints;
 }
 
 export class GeminiUnavailableError extends Error {
@@ -26,7 +29,10 @@ export class GeminiUnavailableError extends Error {
 }
 
 /** Build the system prompt used for the main article. */
-export const buildArticlePrompt = (transcript: Transcript): string => {
+export const buildArticlePrompt = (
+  transcript: Transcript,
+  constraints?: Constraints,
+): string => {
   const lines = transcript.segments
     .map((segment) => `- ${segment.text}`)
     .join("\n");
@@ -36,6 +42,7 @@ export const buildArticlePrompt = (transcript: Transcript): string => {
     "Organize it into chapters with <h2> headings; use <p> for prose and <blockquote> for dialogue.",
     "Keep facts within what the transcript supports. Do not invent numbers.",
     "Return only HTML fragments, without a leading title or code fence.",
+    ...(constraints ? ["User constraints:", formatConstraints(constraints)] : []),
     "Transcript:",
     lines,
   ].join("\n");
@@ -69,7 +76,9 @@ export const streamArticle = async function* (
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      contents: [{ role: "user", parts: [{ text: buildArticlePrompt(transcript) }] }],
+      contents: [
+        { role: "user", parts: [{ text: buildArticlePrompt(transcript, options.constraints) }] },
+      ],
       generationConfig: { temperature: 0.7 },
     }),
   });
