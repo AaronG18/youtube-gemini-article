@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Health endpoint
-        run: curl -fsS https://youtube-gemini-article.mixolydian-hour.workers.dev/api/health
+        run: |
+          response=$(curl -sS -i -A "Mozilla/5.0" https://youtube-gemini-article.mixolydian-hour.workers.dev/api/health)
+          echo "$response"
+          echo "$response" | grep -q "HTTP/2 200"
       - name: Page contains the generator form
-        run: curl -fsS https://youtube-gemini-article.mixolydian-hour.workers.dev/ | grep -q 'id="generate-form"'
+        run: |
+          response=$(curl -sS -i -A "Mozilla/5.0" https://youtube-gemini-article.mixolydian-hour.workers.dev/)
+          echo "$response"
+          echo "$response" | grep -q 'id="generate-form"'
