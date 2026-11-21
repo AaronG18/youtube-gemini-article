@@ -4,11 +4,13 @@ import { secureHeaders } from "hono/secure-headers";
 import { generate } from "./routes/generate";
 import { health } from "./routes/health";
 import { transcript } from "./routes/transcript";
+import { ui } from "./routes/ui";
 import type { Bindings } from "./types";
 
 const app = new Hono<{ Bindings: Bindings }>();
 
 app.use("*", secureHeaders());
+app.route("/", ui);
 app.route("/api/health", health);
 app.route("/api/transcript", transcript);
 app.route("/api/generate", generate);
