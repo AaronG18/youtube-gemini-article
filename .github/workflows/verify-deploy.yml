@@ -1,0 +1,15 @@
+name: Verify deployment
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Health endpoint
+        run: curl -fsS https://youtube-gemini-article.mixolydian-hour.workers.dev/api/health
+      - name: Page contains the generator form
+        run: curl -fsS https://youtube-gemini-article.mixolydian-hour.workers.dev/ | grep -q 'id="generate-form"'
