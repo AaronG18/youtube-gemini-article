@@ -1,0 +1,9 @@
+name = "youtube-gemini-article"
+main = "src/index.ts"
+compatibility_date = "2026-11-22"
+workers_dev = true
+
+# Optional: bind a KV namespace to persist generation context across requests.
+# [[kv_namespaces]]
+# binding = "ARTICLE_CONTEXT"
+# id = "<your-kv-namespace-id>"
